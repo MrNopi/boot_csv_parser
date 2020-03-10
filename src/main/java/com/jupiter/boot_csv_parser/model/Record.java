@@ -1,7 +1,5 @@
 package com.jupiter.boot_csv_parser.model;
 
-import java.time.LocalTime;
-
 public class Record {
     private Long id;
     private String productId;
