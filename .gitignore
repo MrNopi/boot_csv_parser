@@ -1,0 +1,7 @@
+target/
+HELP.md
+
+### IntelliJ IDEA ###
+.idea
+*.iml
+*.csv
