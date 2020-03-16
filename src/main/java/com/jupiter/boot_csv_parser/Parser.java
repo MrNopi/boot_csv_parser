@@ -6,23 +6,28 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import com.jupiter.boot_csv_parser.model.Record;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVRecord;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
 public class Parser {
+    private static final Logger LOGGER = LoggerFactory.getLogger(Parser.class);
+    String[] HEADERS = {"id", "ProductId", "UserId", "ProfileName", "Score", "Time", "Summary", "Text"};
 
-    public List<Record> parse() {
+    public List<Record> parse(String path) {
         try {
-            String path = getClass().getClassLoader().getResource("Reviews.csv").getFile();
-            BufferedReader reader = new BufferedReader(new FileReader(path));
+            String file = getClass().getClassLoader().getResource(path).getFile();
+            BufferedReader reader = new BufferedReader(new FileReader(file));
             long timeBefore = System.currentTimeMillis();
-            List<Record> records = new ArrayList<>();
-            reader.readLine();
-            while(reader.ready()) {
-                Record record = convertToRecord(reader.readLine().split(","));
-                records.add(record);
+            Iterable<CSVRecord> records1 = CSVFormat.DEFAULT.withHeader(HEADERS).withFirstRecordAsHeader().parse(reader);
+            LOGGER.info(String.valueOf(System.currentTimeMillis() - timeBefore));
+            List<Record> records = new ArrayList();
+            for (CSVRecord record: records1) {
+                records.add(this.convertToRecord(record));
             }
-            System.out.println(System.currentTimeMillis() - timeBefore);
             reader.close();
             return records;
         } catch (IOException e) {
@@ -30,22 +35,16 @@ public class Parser {
         }
     }
 
-    private Record convertToRecord(String[] arr) {
+    private Record convertToRecord(CSVRecord input) {
         Record record = new Record();
-        record.setId(Long.valueOf(arr[0]));
-        record.setProductId(arr[1]);
-        record.setUserId(arr[2]);
-        record.setProfileName(arr[3]);
-        record.setHelpfulnessNumerator(arr[4]);
-        record.setHelpfulnessDenominator(arr[5]);
-        record.setScore(arr[6]);
-        record.setTime(arr[7]);
-        record.setSummary(arr[8]);
-        StringBuilder tempsb = new StringBuilder();
-        for (int i = 9; i < arr.length; i++) {
-            tempsb.append(arr[i]).append(",");
-        }
-        record.setText(tempsb.toString());
+        record.setId(Long.valueOf(input.get("Id")));
+        record.setProductId(input.get("ProductId"));
+        record.setUserId(input.get("UserId"));
+        record.setProfileName(input.get("ProfileName"));
+        record.setScore(input.get("Score"));
+        record.setTime(input.get("Time"));
+        record.setSummary(input.get("Summary"));
+        record.setText(input.get("Text"));
         return record;
     }
 }

@@ -5,8 +5,6 @@ public class Record {
         private String productId;
         private String userId;
         private String profileName;
-        private String helpfulnessNumerator;
-        private String helpfulnessDenominator;
         private String score;
         private String time;
         private String Summary;
@@ -42,22 +40,6 @@ public class Record {
 
     public void setProfileName(String profileName) {
         this.profileName = profileName;
-    }
-
-    public String getHelpfulnessNumerator() {
-        return helpfulnessNumerator;
-    }
-
-    public void setHelpfulnessNumerator(String helpfulnessNumerator) {
-        this.helpfulnessNumerator = helpfulnessNumerator;
-    }
-
-    public String getHelpfulnessDenominator() {
-        return helpfulnessDenominator;
-    }
-
-    public void setHelpfulnessDenominator(String helpfulnessDenominator) {
-        this.helpfulnessDenominator = helpfulnessDenominator;
     }
 
     public String getScore() {
@@ -99,8 +81,6 @@ public class Record {
                 ", productId='" + productId + '\'' +
                 ", userId='" + userId + '\'' +
                 ", profileName='" + profileName + '\'' +
-                ", helpfulnessNumerator='" + helpfulnessNumerator + '\'' +
-                ", helpfulnessDenominator='" + helpfulnessDenominator + '\'' +
                 ", score='" + score + '\'' +
                 ", time='" + time + '\'' +
                 ", Summary='" + Summary + '\'' +
