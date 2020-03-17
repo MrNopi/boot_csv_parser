@@ -31,7 +31,7 @@ public class Parser {
             reader.close();
             return records;
         } catch (IOException e) {
-            throw new RuntimeException();
+            throw new RuntimeException("Unable to find file, please check file name and try again");
         }
     }
 
